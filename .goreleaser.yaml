@@ -93,7 +93,7 @@ source:
 dist: build
 release:
   github:
-    owner: containerssh
+    owner: tsipinakis
     name: containerssh
   prerelease: auto
   extra_files:
