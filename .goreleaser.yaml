@@ -99,9 +99,6 @@ sboms:
     artifacts: source 
 dist: build
 release:
-  github:
-    owner: containerssh
-    name: containerssh
   prerelease: auto
   extra_files:
     - glob: LICENSE
