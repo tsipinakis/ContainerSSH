@@ -1,0 +1,97 @@
+before:
+  hooks:
+    - go vet
+    - go generate
+    - go test
+builds:
+  - id: containerssh
+    main: cmd/containerssh/main.go
+    binary: "containerssh"
+    goos:
+      - freebsd
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+  - id: containerssh-auditlog-decoder
+    main: cmd/containerssh-auditlog-decoder/main.go
+    binary: "containerssh-auditlog-decoder"
+    goos:
+      - freebsd
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+  - id: containerssh-testauthconfigserver
+    main: cmd/containerssh-testauthconfigserver/main.go
+    binary: "containerssh-testauthconfigserver"
+    goos:
+      - freebsd
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+archives:
+  - builds:
+      - containerssh
+      - containerssh-auditlog-decoder
+      - containerssh-testauthconfigserver
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE.md
+      - NOTICE.md
+      - config.example.yaml
+nfpms:
+  - vendor: ContainerSSH
+    homepage: https://containerssh.io
+    maintainer: Janos Pasztor <handshake@containerssh.io>
+    description: An SSH server that launches Docker containers and Kubernetes pods
+    license: MIT
+    builds:
+      - containerssh
+      - containerssh-testauthconfigserver
+      - containerssh-auditlog-decoder
+    formats:
+      - deb
+      - rpm
+      - apk
+    empty_folders:
+      - /etc/containerssh
+    bindir: /usr/sbin
+    suggests:
+      - docker
+    contents:
+      - src: config.example.yaml
+        dst: /etc/containerssh/config.yaml
+        type: config
+      - src: LICENSE.md
+        dst: /usr/share/doc/containerssh/LICENSE.md
+      - src: NOTICE.md
+        dst: /usr/share/doc/containerssh/NOTICE.md
+signs:
+  - id: sign-all
+    artifacts: all
+source:
+  enabled: true
+  name_template: '{{ .ProjectName }}-{{ .Version }}-source'
+dist: build
+release:
+  github:
+    owner: containerssh
+    name: containerssh
+  prerelease: auto
+  extra_files:
+    - glob: LICENSE.md
+    - glob: NOTICE.md
+    - glob: containerssh-authconfig-openapi.json

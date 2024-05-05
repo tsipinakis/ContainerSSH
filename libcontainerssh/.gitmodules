@@ -1,0 +1,3 @@
+[submodule "internal/geoip/data"]
+	path = internal/geoip/data
+	url = https://github.com/maxmind/MaxMind-DB.git
