@@ -7,7 +7,7 @@ require (
 	github.com/go-enry/go-license-detector/v4 v4.1.0
 	github.com/mitchellh/golicense v0.2.0
 	github.com/rsc/goversion v1.2.0
-	go.containerssh.io/libcontainerssh v0.5.0
+	go.containerssh.io/containerssh/api v0.5.0
 )
 
 require (
